@@ -8,7 +8,25 @@
 	<div class="wrap">
 		<div class="task-list">
 			<ul>
-				<?php require("includes/connect.php"); ?>
+				<?php require("includes/connect.php");
+				$mysqli = new mysqli('localhost', 'root', 'root', 'tasks');
+				$query = "SELECT = FROM tasks ORDER BY date ASC, time ASC";
+				if ($result = $mysqli->query($query)) {
+					$numrows = $result->num_rows;
+					if ($numrows>0){
+						while($row = $result->fetch_assoc()){
+							$task_id = row['id'];
+							$task_name = $row["task"];
+
+							echo "<li>
+							<span>'.$task_name'
+							";
+						}
+					}
+				}
+
+				?>
+
 			</ul>
 	</div>
 	<form class="add-task" auto="off">
@@ -18,8 +36,8 @@
 </body>
 <script type="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
- add_task(); // calling the add task function
-function add_task(){
+ 	add_task(); // calling the add task function
+	function add_task(){
 	$('.add-new-task').submit(function() {
 		var new_task = $('add-new-task input[name=new-task').val();
 
